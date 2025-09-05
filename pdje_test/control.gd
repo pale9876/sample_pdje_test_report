@@ -13,5 +13,11 @@ func _ready() -> void:
 func _update() -> void:
 	pass
 
-func _get_tuner() -> Array:
-	return []
+func _get_tuner() -> Array[FXTuner]:
+	var result: Array[FXTuner] = []
+	
+	for node: Node in get_children():
+		if node is FXTuner:
+			result.push_back(node)
+	
+	return result
