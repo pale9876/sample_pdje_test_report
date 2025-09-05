@@ -1,0 +1,57 @@
+[gd_scene load_steps=4 format=3 uid="uid://dtxjswu0jkp1e"]
+
+[ext_resource type="Script" uid="uid://hbrejkpkj6ls" path="res://main_scene.gd" id="1_0f027"]
+[ext_resource type="Script" uid="uid://cu43f07s8ngkw" path="res://effect_tuner.gd" id="2_2c62f"]
+[ext_resource type="Script" uid="uid://cojb6kfnkfusa" path="res://control.gd" id="2_gyfs4"]
+
+[node name="MainScene" type="Node"]
+script = ExtResource("1_0f027")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="FXContainer" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_gyfs4")
+
+[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer/FXContainer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/FXContainer/CenterContainer"]
+custom_minimum_size = Vector2(680, 480)
+layout_mode = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 25
+theme_override_constants/margin_right = 25
+theme_override_constants/margin_bottom = 25
+
+[node name="Container" type="HBoxContainer" parent="CanvasLayer/FXContainer/CenterContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 40
+alignment = 1
+
+[node name="0Tuner" type="VBoxContainer" parent="CanvasLayer/FXContainer/CenterContainer/MarginContainer/Container"]
+layout_mode = 2
+alignment = 1
+script = ExtResource("2_2c62f")
+
+[node name="VSlider" type="VSlider" parent="CanvasLayer/FXContainer/CenterContainer/MarginContainer/Container/0Tuner"]
+layout_mode = 2
+size_flags_horizontal = 1
+size_flags_vertical = 3
+max_value = 1.0
+step = 0.01
+
+[node name="Label" type="Label" parent="CanvasLayer/FXContainer/CenterContainer/MarginContainer/Container/0Tuner"]
+layout_mode = 2
+text = "asd"
+horizontal_alignment = 1

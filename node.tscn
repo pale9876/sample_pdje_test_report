@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://bsvnxmlbrpse5"]
-
-[ext_resource type="Script" uid="uid://b1u3jvr5p1wcq" path="res://pdje.gd" id="1_sy5k4"]
-
-[node name="PDJE" type="Node"]
-script = ExtResource("1_sy5k4")
