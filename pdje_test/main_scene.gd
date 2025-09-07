@@ -1,11 +1,10 @@
 extends Node
 
-var engine: PDJE_Wrapper
-var editor: EditorWrapper
-var player: PlayerWrapper
-var muspanel: MusPannelWrapper
+var editor: EditorWrapper = null
+var engine: PDJE_Wrapper = null
+var player: PlayerWrapper = null
+var muspanel: MusPannelWrapper = null
 
-var turn_on = false
 
 var db_root: String = "res://rootdb"
 var editor_path: String = "res://editor/"
@@ -14,15 +13,14 @@ var composer: String = "hatsune"
 var track_title: String = "Vocaro"
 var music_path: String = "res://musics/miku_temp.wav"
 
-func _ready() -> void:
+var turn_on = false
+
+func _init() -> void:
 	engine = PDJE_Wrapper.new()
-	
 	print("InitEngine :: ", engine.InitEngine(db_root)) # InitEngine First
-	
-	var search_is_empty: bool = engine.SearchMusic(song_name, composer).is_empty()
-	print("Search Is Empty :: ", search_is_empty)
-	
-	if search_is_empty:
+
+func _ready() -> void:
+	if search():
 		if engine.InitEditor("anon", "sss@gmail.com", editor_path):
 			editor = engine.GetEditor()
 			
@@ -36,6 +34,8 @@ func _ready() -> void:
 			
 			editor.pushToRootDB(song_name, composer)
 			editor.pushTrackToRootDB(track_title)
+			
+			engine.CloseEditor()
 
 	print("Init Player :: ", engine.InitPlayer(PDJE_Wrapper.FULL_MANUAL_RENDER, "void", 48))
 	player = engine.GetPlayer()
@@ -58,6 +58,9 @@ func _process(delta: float) -> void:
 
 func get_fx_wrapper() -> EnumWrapper.PDJE_FX_LIST:
 	return EnumWrapper.ECHO
+
+func search() -> bool:
+	return engine.SearchMusic(song_name, composer).is_empty()
 
 func get_fxhandle_immediately() -> FXWrapper:
 	return muspanel.getFXHandle(song_name)

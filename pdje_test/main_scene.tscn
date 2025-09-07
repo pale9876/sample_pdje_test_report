@@ -1,15 +1,16 @@
-[gd_scene load_steps=4 format=3 uid="uid://dtxjswu0jkp1e"]
+[gd_scene load_steps=5 format=3 uid="uid://dtxjswu0jkp1e"]
 
 [ext_resource type="Script" uid="uid://hbrejkpkj6ls" path="res://main_scene.gd" id="1_0f027"]
 [ext_resource type="Script" uid="uid://cu43f07s8ngkw" path="res://effect_tuner.gd" id="2_2c62f"]
-[ext_resource type="Script" uid="uid://cojb6kfnkfusa" path="res://control.gd" id="2_gyfs4"]
+[ext_resource type="Script" uid="uid://cojb6kfnkfusa" path="res://FXContainer.gd" id="2_gyfs4"]
+[ext_resource type="Script" uid="uid://di3dijqigob0u" path="res://music_interface.gd" id="4_d5x1h"]
 
 [node name="MainScene" type="Node"]
 script = ExtResource("1_0f027")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="Canvas" type="CanvasLayer" parent="."]
 
-[node name="FXContainer" type="Control" parent="CanvasLayer"]
+[node name="FXContainer" type="Control" parent="Canvas" node_paths=PackedStringArray("_effects")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -17,8 +18,23 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("2_gyfs4")
+_effects = {
+&"Compressor": NodePath("CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer/Container/CompressorTuner"),
+&"Distortion": NodePath("CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer/Container/DistortionTuner"),
+&"EQ": NodePath("CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer/Container/EQTuner"),
+&"Echo": NodePath("CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer/Container/EchoTuner"),
+&"Filter": NodePath("CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer/Container/FilterTuner"),
+&"Flanger": NodePath("CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer/Container/FlangerTuner"),
+&"OCSFilter": NodePath("CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer/Container/OCSFilterTuner"),
+&"Panner": NodePath("CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer/Container/PannerTuner"),
+&"Phaser": NodePath("CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer/Container/PhaserTuner"),
+&"Robot": NodePath("CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer/Container/RobotTuner"),
+&"Roll": NodePath("CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer/Container/RollTuner"),
+&"Trance": NodePath("CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer/Container/TranceTuner"),
+&"Vol": NodePath("CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer/Container/VolTuner")
+}
 
-[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer/FXContainer"]
+[node name="CenterContainer" type="CenterContainer" parent="Canvas/FXContainer"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -26,33 +42,562 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/FXContainer/CenterContainer"]
-custom_minimum_size = Vector2(680, 480)
+[node name="Panel" type="Panel" parent="Canvas/FXContainer/CenterContainer"]
+custom_minimum_size = Vector2(1000, 600)
 layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Canvas/FXContainer/CenterContainer/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_constants/margin_left = 25
 theme_override_constants/margin_top = 25
 theme_override_constants/margin_right = 25
 theme_override_constants/margin_bottom = 25
 
-[node name="Container" type="HBoxContainer" parent="CanvasLayer/FXContainer/CenterContainer/MarginContainer"]
+[node name="HSplitContainer" type="HSplitContainer" parent="Canvas/FXContainer/CenterContainer/Panel/MarginContainer"]
 layout_mode = 2
-theme_override_constants/separation = 40
+split_offset = 295
+
+[node name="MarginContainer" type="MarginContainer" parent="Canvas/FXContainer/CenterContainer/Panel/MarginContainer/HSplitContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="Container" type="VBoxContainer" parent="Canvas/FXContainer/CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 18
 alignment = 1
 
-[node name="CompressorTuner" type="VBoxContainer" parent="CanvasLayer/FXContainer/CenterContainer/MarginContainer/Container"]
+[node name="CompressorTuner" type="Panel" parent="Canvas/FXContainer/CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer/Container"]
+custom_minimum_size = Vector2(0, 27.175)
 layout_mode = 2
-alignment = 1
+size_flags_vertical = 0
 script = ExtResource("2_2c62f")
-active = null
+active = true
 
-[node name="VSlider" type="VSlider" parent="CanvasLayer/FXContainer/CenterContainer/MarginContainer/Container/CompressorTuner"]
+[node name="MarginContainer" type="MarginContainer" parent="Canvas/FXContainer/CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer/Container/CompressorTuner"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Canvas/FXContainer/CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer/Container/CompressorTuner/MarginContainer"]
 layout_mode = 2
-size_flags_horizontal = 1
+alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="Canvas/FXContainer/CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer/Container/CompressorTuner/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.3
+text = "Compressor"
+
+[node name="HSlider" type="HSlider" parent="Canvas/FXContainer/CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer/Container/CompressorTuner/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
 size_flags_vertical = 3
 max_value = 1.0
 step = 0.01
 
-[node name="Label" type="Label" parent="CanvasLayer/FXContainer/CenterContainer/MarginContainer/Container/CompressorTuner"]
+[node name="DistortionTuner" type="Panel" parent="Canvas/FXContainer/CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer/Container"]
+custom_minimum_size = Vector2(0, 27.175)
 layout_mode = 2
-text = "asd"
-horizontal_alignment = 1
+size_flags_vertical = 0
+script = ExtResource("2_2c62f")
+active = true
+fx_type = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="Canvas/FXContainer/CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer/Container/DistortionTuner"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Canvas/FXContainer/CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer/Container/DistortionTuner/MarginContainer"]
+layout_mode = 2
+alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="Canvas/FXContainer/CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer/Container/DistortionTuner/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.3
+text = "Distortion"
+
+[node name="HSlider" type="HSlider" parent="Canvas/FXContainer/CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer/Container/DistortionTuner/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+max_value = 1.0
+step = 0.01
+
+[node name="EchoTuner" type="Panel" parent="Canvas/FXContainer/CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer/Container"]
+custom_minimum_size = Vector2(0, 27.175)
+layout_mode = 2
+size_flags_vertical = 0
+script = ExtResource("2_2c62f")
+active = true
+fx_type = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Canvas/FXContainer/CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer/Container/EchoTuner"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Canvas/FXContainer/CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer/Container/EchoTuner/MarginContainer"]
+layout_mode = 2
+alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="Canvas/FXContainer/CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer/Container/EchoTuner/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.3
+text = "Echo"
+
+[node name="HSlider" type="HSlider" parent="Canvas/FXContainer/CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer/Container/EchoTuner/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+max_value = 1.0
+step = 0.01
+
+[node name="EQTuner" type="Panel" parent="Canvas/FXContainer/CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer/Container"]
+custom_minimum_size = Vector2(0, 27.175)
+layout_mode = 2
+size_flags_vertical = 0
+script = ExtResource("2_2c62f")
+active = true
+fx_type = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="Canvas/FXContainer/CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer/Container/EQTuner"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Canvas/FXContainer/CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer/Container/EQTuner/MarginContainer"]
+layout_mode = 2
+alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="Canvas/FXContainer/CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer/Container/EQTuner/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.3
+text = "EQ"
+
+[node name="HSlider" type="HSlider" parent="Canvas/FXContainer/CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer/Container/EQTuner/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+max_value = 1.0
+step = 0.01
+
+[node name="FilterTuner" type="Panel" parent="Canvas/FXContainer/CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer/Container"]
+custom_minimum_size = Vector2(0, 27.175)
+layout_mode = 2
+size_flags_vertical = 0
+script = ExtResource("2_2c62f")
+active = true
+fx_type = 4
+
+[node name="MarginContainer" type="MarginContainer" parent="Canvas/FXContainer/CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer/Container/FilterTuner"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Canvas/FXContainer/CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer/Container/FilterTuner/MarginContainer"]
+layout_mode = 2
+alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="Canvas/FXContainer/CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer/Container/FilterTuner/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.3
+text = "Filter"
+
+[node name="HSlider" type="HSlider" parent="Canvas/FXContainer/CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer/Container/FilterTuner/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+max_value = 1.0
+step = 0.01
+
+[node name="FlangerTuner" type="Panel" parent="Canvas/FXContainer/CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer/Container"]
+custom_minimum_size = Vector2(0, 27.175)
+layout_mode = 2
+size_flags_vertical = 0
+script = ExtResource("2_2c62f")
+active = true
+fx_type = 5
+
+[node name="MarginContainer" type="MarginContainer" parent="Canvas/FXContainer/CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer/Container/FlangerTuner"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Canvas/FXContainer/CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer/Container/FlangerTuner/MarginContainer"]
+layout_mode = 2
+alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="Canvas/FXContainer/CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer/Container/FlangerTuner/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.3
+text = "Flanger"
+
+[node name="HSlider" type="HSlider" parent="Canvas/FXContainer/CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer/Container/FlangerTuner/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+max_value = 1.0
+step = 0.01
+
+[node name="OCSFilterTuner" type="Panel" parent="Canvas/FXContainer/CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer/Container"]
+custom_minimum_size = Vector2(0, 27.175)
+layout_mode = 2
+size_flags_vertical = 0
+script = ExtResource("2_2c62f")
+active = true
+fx_type = 6
+
+[node name="MarginContainer" type="MarginContainer" parent="Canvas/FXContainer/CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer/Container/OCSFilterTuner"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Canvas/FXContainer/CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer/Container/OCSFilterTuner/MarginContainer"]
+layout_mode = 2
+alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="Canvas/FXContainer/CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer/Container/OCSFilterTuner/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.3
+text = "OCSFilter"
+
+[node name="HSlider" type="HSlider" parent="Canvas/FXContainer/CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer/Container/OCSFilterTuner/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+max_value = 1.0
+step = 0.01
+
+[node name="PannerTuner" type="Panel" parent="Canvas/FXContainer/CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer/Container"]
+custom_minimum_size = Vector2(0, 27.175)
+layout_mode = 2
+size_flags_vertical = 0
+script = ExtResource("2_2c62f")
+active = true
+fx_type = 7
+
+[node name="MarginContainer" type="MarginContainer" parent="Canvas/FXContainer/CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer/Container/PannerTuner"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Canvas/FXContainer/CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer/Container/PannerTuner/MarginContainer"]
+layout_mode = 2
+alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="Canvas/FXContainer/CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer/Container/PannerTuner/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.3
+text = "Panner"
+
+[node name="HSlider" type="HSlider" parent="Canvas/FXContainer/CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer/Container/PannerTuner/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+max_value = 1.0
+step = 0.01
+
+[node name="PhaserTuner" type="Panel" parent="Canvas/FXContainer/CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer/Container"]
+custom_minimum_size = Vector2(0, 27.175)
+layout_mode = 2
+size_flags_vertical = 0
+script = ExtResource("2_2c62f")
+active = true
+fx_type = 8
+
+[node name="MarginContainer" type="MarginContainer" parent="Canvas/FXContainer/CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer/Container/PhaserTuner"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Canvas/FXContainer/CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer/Container/PhaserTuner/MarginContainer"]
+layout_mode = 2
+alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="Canvas/FXContainer/CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer/Container/PhaserTuner/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.3
+text = "Phaser"
+
+[node name="HSlider" type="HSlider" parent="Canvas/FXContainer/CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer/Container/PhaserTuner/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+max_value = 1.0
+step = 0.01
+
+[node name="RobotTuner" type="Panel" parent="Canvas/FXContainer/CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer/Container"]
+custom_minimum_size = Vector2(0, 27.175)
+layout_mode = 2
+size_flags_vertical = 0
+script = ExtResource("2_2c62f")
+active = true
+fx_type = 9
+
+[node name="MarginContainer" type="MarginContainer" parent="Canvas/FXContainer/CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer/Container/RobotTuner"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Canvas/FXContainer/CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer/Container/RobotTuner/MarginContainer"]
+layout_mode = 2
+alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="Canvas/FXContainer/CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer/Container/RobotTuner/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.3
+text = "Robot"
+
+[node name="HSlider" type="HSlider" parent="Canvas/FXContainer/CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer/Container/RobotTuner/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+max_value = 1.0
+step = 0.01
+
+[node name="RollTuner" type="Panel" parent="Canvas/FXContainer/CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer/Container"]
+custom_minimum_size = Vector2(0, 27.175)
+layout_mode = 2
+size_flags_vertical = 0
+script = ExtResource("2_2c62f")
+active = true
+fx_type = 10
+
+[node name="MarginContainer" type="MarginContainer" parent="Canvas/FXContainer/CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer/Container/RollTuner"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Canvas/FXContainer/CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer/Container/RollTuner/MarginContainer"]
+layout_mode = 2
+alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="Canvas/FXContainer/CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer/Container/RollTuner/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.3
+text = "Roll"
+
+[node name="HSlider" type="HSlider" parent="Canvas/FXContainer/CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer/Container/RollTuner/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+max_value = 1.0
+step = 0.01
+
+[node name="TranceTuner" type="Panel" parent="Canvas/FXContainer/CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer/Container"]
+custom_minimum_size = Vector2(0, 27.175)
+layout_mode = 2
+size_flags_vertical = 0
+script = ExtResource("2_2c62f")
+active = true
+fx_type = 11
+
+[node name="MarginContainer" type="MarginContainer" parent="Canvas/FXContainer/CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer/Container/TranceTuner"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Canvas/FXContainer/CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer/Container/TranceTuner/MarginContainer"]
+layout_mode = 2
+alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="Canvas/FXContainer/CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer/Container/TranceTuner/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.3
+text = "Trance"
+
+[node name="HSlider" type="HSlider" parent="Canvas/FXContainer/CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer/Container/TranceTuner/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+max_value = 1.0
+step = 0.01
+
+[node name="VolTuner" type="Panel" parent="Canvas/FXContainer/CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer/Container"]
+custom_minimum_size = Vector2(0, 27.175)
+layout_mode = 2
+size_flags_vertical = 0
+script = ExtResource("2_2c62f")
+active = true
+fx_type = 12
+
+[node name="MarginContainer" type="MarginContainer" parent="Canvas/FXContainer/CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer/Container/VolTuner"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Canvas/FXContainer/CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer/Container/VolTuner/MarginContainer"]
+layout_mode = 2
+alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="Canvas/FXContainer/CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer/Container/VolTuner/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.3
+text = "Vol"
+
+[node name="HSlider" type="HSlider" parent="Canvas/FXContainer/CenterContainer/Panel/MarginContainer/HSplitContainer/MarginContainer/Container/VolTuner/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+max_value = 1.0
+step = 0.01
+
+[node name="Control" type="Control" parent="Canvas/FXContainer/CenterContainer/Panel/MarginContainer/HSplitContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="Canvas/FXContainer/CenterContainer/Panel/MarginContainer/HSplitContainer/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="MusicInterface" type="VBoxContainer" parent="Canvas/FXContainer/CenterContainer/Panel/MarginContainer/HSplitContainer/Control/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("4_d5x1h")
+
+[node name="SongNameEdit" type="LineEdit" parent="Canvas/FXContainer/CenterContainer/Panel/MarginContainer/HSplitContainer/Control/MarginContainer/MusicInterface"]
+layout_mode = 2
+placeholder_text = "Song Name"
+
+[node name="ComposerEdit" type="LineEdit" parent="Canvas/FXContainer/CenterContainer/Panel/MarginContainer/HSplitContainer/Control/MarginContainer/MusicInterface"]
+layout_mode = 2
+placeholder_text = "Composer"
+
+[node name="ShowHideToggle" type="CheckBox" parent="Canvas/FXContainer/CenterContainer/Panel/MarginContainer/HSplitContainer/Control/MarginContainer/MusicInterface"]
+layout_mode = 2
+text = "Hide / Show"
